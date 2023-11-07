@@ -1,2 +1,2 @@
-# event-manager
-It shows an event manager that is triggered from S3.
+# S3의 Put Object Event를 처리하기 위한 Event Manager
+
