@@ -74,6 +74,8 @@ def lambda_handler(event, context):
             'event_id': {'S':eventId},
             'event_timestamp': {'S':eventTimestamp}
         }
+
+        body = json.dumps(eventBody)
         
         try:
             resp = dynamodb_client.update_item(
@@ -82,7 +84,7 @@ def lambda_handler(event, context):
                 UpdateExpression='SET event_status = :status, event_body = :body',
                 ExpressionAttributeValues={
                     ':status': {'S': 'loaded'},
-                    ':body': {'S': eventBody}}
+                    ':body': {'S': body}}
                 )
         except Exception:
             err_msg = traceback.format_exc()
