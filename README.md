@@ -1,11 +1,11 @@
 # S3의 Put Object Event를 처리하기 위한 Event Manager
 
-전체적인 Architecture는 아래와 같습니다.
+여기서는 S3에 다수의 Obejct가 인입되어 다수의 Step functions이 수행될때에 Event를 관리하는 방법에 대해 설명합니다. AWS Step Functions의 처리 속도가 충분히 빠른 경우에는 Event Manager없이 SQS(FIFO)와 Lambda를 통하여 Event를 처리할 수 있습니다. 이때 DLQ를 같이 사용하면 실패 경우에도 자연스럽게 Event를 안정적으로 관리할 수 있습니다. 그런데 Step Functions의 처리 속도가 이벤트의 인입 속도에 비해 월등히 느리다면 안정적인 부하 관리를 위해 Event Manager를 이용할 수 있습니다. 아래 그림에서는 2가지 경우의 전체적인 Archtiectrue의 예를 보여주고 있습니다.
 
-<img src="https://github.com/kyopark2014/event-manager/assets/52392004/abc14daa-4d3f-4d64-a1df-81eb178e7fef" width="800">
+<img src="https://github.com/kyopark2014/event-manager/assets/52392004/abc14daa-4d3f-4d64-a1df-81eb178e7fef" width="900">
 
 
-[Event Manager를 사용하지 않는 경우]
+## Event Manager를 사용하지 않는 경우
 
 이때의 데이터 Flow는 아래와 같습니다.
 
@@ -19,7 +19,7 @@
 (3) SQS에 event가 들어오면 Lambda (invoke)를 trigger합니다.
 (4) Lambda (invoke)가 Step Fucntions으로 event를 전달합니다. 
 
-[Event Manager를 사용하는 경우]
+## Event Manager를 사용하는 경우
 
 Event Manager를 사용하는 경우에 아래와 같이 event를 처리하는 path가 변경됩니다.
 
