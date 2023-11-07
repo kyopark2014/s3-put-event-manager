@@ -111,7 +111,8 @@ export class CdkS3EventManagerStack extends cdk.Stack {
       timeout: cdk.Duration.seconds(120),
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        tableName: tableName
+        tableName: tableName,
+        indexName: indexName
       }
     });
 
