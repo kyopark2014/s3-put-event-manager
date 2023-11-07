@@ -141,5 +141,11 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     s3Bucket.grantRead(lambdaInvoke);  // read permission for S3
     dataTable.grantReadWriteData(lambdaInvoke); // permission for DynamoDB
     lambdaInvoke.addEventSource(new SqsEventSource(queueS3PutItem)); // permission for SQS
+
+    // copy commend
+    new cdk.CfnOutput(this, 'copyComment', {
+      value: `aws s3 cp ~/environment/data/ s3://${s3Bucket.bucketName}/data/ --recursive`,
+      description: 'The copy commend',
+    });
   }
 }
