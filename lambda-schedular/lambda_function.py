@@ -44,7 +44,7 @@ def lambda_handler(event, context):
                 ConditionExpression='event_id = :event_id and event_timestamp = :event_timestamp',
                 ExpressionAttributeValues={
                     ':event_id': {'S': eventId},
-                    ':eventTimestamp': {'S': eventTimestamp}
+                    ':event_timestamp': {'S': eventTimestamp}
                 }
             )
         except Exception:
