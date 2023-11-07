@@ -66,6 +66,8 @@ def lambda_handler(event, context):
             print('err_msg: ', err_msg)
             raise Exception ("Not able to update in dynamodb") 
         #print('resp, ', resp)
+        print('The status was upaded from loaded to completed: , ', eventId)
+
         # delete dynamodb
         #Key = {
         #    'event_id': {'S':eventId},
