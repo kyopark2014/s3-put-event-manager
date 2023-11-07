@@ -81,7 +81,7 @@ def lambda_handler(event, context):
             resp = dynamodb_client.update_item(
                 TableName=tableName, 
                 Key=Key, 
-                UpdateExpression='SET event_status = :status, event_body = :body',
+                UpdateExpression='SET event_status = :status',
                 #UpdateExpression='SET event_status = :status, event_body = :body',
                 ExpressionAttributeValues={
                     ':body': {'S': body}}
