@@ -45,12 +45,18 @@ export class CdkS3EventManagerStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = `dynamodb-for-${projectName}`;
+    const indexName = "time-index";
     const dataTable = new dynamodb.Table(this, `dynamodb-for-${projectName}`, {
       tableName: tableName,
-        partitionKey: { name: 'item_id', type: dynamodb.AttributeType.STRING },
-        sortKey: { name: 'request_time', type: dynamodb.AttributeType.STRING },
+        partitionKey: { name: 'event_id', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'event_timestamp', type: dynamodb.AttributeType.STRING },
         billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+    dataTable.addGlobalSecondaryIndex({ // GSI
+      indexName: indexName,
+      partitionKey: { name: 'event_status', type: dynamodb.AttributeType.STRING },
+      sortKey: { name: 'event_timestamp', type: dynamodb.AttributeType.STRING },
     });
 
     // SQS for S3 putItem
