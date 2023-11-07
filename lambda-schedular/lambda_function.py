@@ -45,7 +45,7 @@ def lambda_handler(event, context):
                 Key={'event_id': {'S': eventId}},
                 ConditionExpression='event_timestamp = :event_timestamp',
                 ExpressionAttributeValues={
-                    ':event_id': {'S': eventId},
+                    #':event_id': {'S': eventId},
                     ':event_timestamp': {'S': eventTimestamp}
                 }
             )
