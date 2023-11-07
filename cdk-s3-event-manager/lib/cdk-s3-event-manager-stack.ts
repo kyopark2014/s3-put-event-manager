@@ -20,8 +20,8 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     super(scope, id, props);
 
     // s3 
-    const s3Bucket = new s3.Bucket(this, `storage-${projectName}`, {
-      bucketName: `storage-${projectName}`,
+    const s3Bucket = new s3.Bucket(this, `storage-for-${projectName}`, {
+      bucketName: `storage-for-${projectName}`,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       autoDeleteObjects: true,
@@ -44,19 +44,13 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     }
 
     // DynamoDB
-    const tableName = `dynamodb-${projectName}`;
-    const indexName = "time-index";
-    const dataTable = new dynamodb.Table(this, 'dynamodb-s3-event', {
+    const tableName = `dynamodb-for-${projectName}`;
+    const dataTable = new dynamodb.Table(this, `dynamodb-for-${projectName}`, {
       tableName: tableName,
-        partitionKey: { name: 'event_id', type: dynamodb.AttributeType.STRING },
-        sortKey: { name: 'event_timestamp', type: dynamodb.AttributeType.STRING },
+        partitionKey: { name: 'item_id', type: dynamodb.AttributeType.STRING },
+        sortKey: { name: 'request_time', type: dynamodb.AttributeType.STRING },
         billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
-    });
-    dataTable.addGlobalSecondaryIndex({ // GSI
-      indexName: indexName,
-      partitionKey: { name: 'event_status', type: dynamodb.AttributeType.STRING },
-      sortKey: { name: 'event_timestamp', type: dynamodb.AttributeType.STRING },
     });
 
     // SQS for S3 putItem
@@ -76,9 +70,9 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     }
 
     // Lambda for s3 event
-    const lambdaS3event = new lambda.Function(this, `lambda-s3-event-${projectName}`, {
+    const lambdaS3event = new lambda.Function(this, `lambda-s3-event-for-${projectName}`, {
       description: 'lambda for s3 event',
-      functionName: `lambda-s3-event-${projectName}`,
+      functionName: `lambda-s3-event-for-${projectName}`,
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_11,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-s3-event')),
@@ -105,7 +99,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     // Lambda for schedular
     const lambdaSchedular = new lambda.Function(this, `lambda-schedular-${projectName}`, {
       description: 'lambda for schedular',
-      functionName: `lambda-schedular-${projectName}`,
+      functionName: `lambda-schedular-for-${projectName}`,
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_11,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-schedular')),
@@ -124,9 +118,9 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     rule.addTarget(new targets.LambdaFunction(lambdaSchedular)); 
 
     // Lambda - Invoke
-    const lambdaInvoke = new lambda.Function(this, `lambda-invoke-${projectName}`, {
+    const lambdaInvoke = new lambda.Function(this, `lambda-invoke-for-${projectName}`, {
       description: 'lambda for invoke',
-      functionName: `lambda-invoke-${projectName}`,
+      functionName: `lambda-invoke-for-${projectName}`,
       handler: 'lambda_function.lambda_handler',
       runtime: lambda.Runtime.PYTHON_3_11,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-invoke')),
