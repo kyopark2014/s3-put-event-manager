@@ -3,6 +3,7 @@ import boto3
 import os
 import datetime
 import uuid
+import traceback
 
 tableName = os.environ.get('tableName')
 
@@ -36,7 +37,9 @@ def lambda_handler(event, context):
         client = boto3.client('dynamodb')
         try:
             resp = client.put_item(TableName=tableName, Item=item)
-        except: 
+        except Exception as ex:
+            err_msg = traceback.format_exc()
+            print('err_msg: ', err_msg)
             raise Exception ("Not able to write into dynamodb")        
         print('resp, ', resp)
 
