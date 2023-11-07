@@ -1,9 +1,6 @@
 import json
 import boto3
 import os
-import time
-from multiprocessing import Process
-from io import BytesIO
 import datetime
 
 dynamodb_client = boto3.client('dynamodb')
@@ -23,8 +20,8 @@ def lambda_handler(event, context):
         print('bucketName: '+bucketName+', key: '+key)
 
         s3eventInfo.append({
-            bucketName: bucketName,
-            key: key
+            'bucketName': bucketName,
+            'key': key
         })
 
     for s3event in s3eventInfo:
@@ -45,7 +42,7 @@ def lambda_handler(event, context):
         }
         client = boto3.client('dynamodb')
         try:
-            resp =  client.put_item(TableName=tableName, Item=item)
+            resp = client.put_item(TableName=tableName, Item=item)
         except: 
             raise Exception ("Not able to write into dynamodb")        
         print('resp, ', resp)
