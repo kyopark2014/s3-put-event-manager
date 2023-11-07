@@ -45,7 +45,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = `dynamodb-${projectName}`;
-    const indexName = "time-index";¸
+    const indexName = "time-index";
     const dataTable = new dynamodb.Table(this, 'dynamodb-s3-event', {
       tableName: tableName,
         partitionKey: { name: 'event_id', type: dynamodb.AttributeType.STRING },
