@@ -2,7 +2,7 @@
 
 여기서는 S3에 다수의 Obejct가 인입되어 다수의 Step functions이 수행될때에 Event를 관리하는 방법에 대해 설명합니다. AWS Step Functions의 처리 속도가 충분히 빠른 경우에는 Event Manager없이 SQS(FIFO)와 Lambda를 통하여 Event를 처리할 수 있습니다. 이때 DLQ를 같이 사용하면 실패 경우에도 자연스럽게 Event를 안정적으로 관리할 수 있습니다. 그런데 Step Functions의 처리 속도가 이벤트의 인입 속도에 비해 월등히 느리다면 안정적인 부하 관리를 위해 Event Manager를 이용할 수 있습니다. 아래 그림에서는 2가지 경우의 전체적인 Archtiectrue의 예를 보여주고 있습니다.
 
-<img src="https://github.com/kyopark2014/s3-put-event-manager/assets/52392004/2a33195a-aa54-4956-a60c-261a026969e3" width="900">
+<img src="https://github.com/kyopark2014/s3-put-event-manager/assets/52392004/f0f75700-1bfe-44f4-affa-700e47b76005" width="900">
 
 
 ## Event Manager를 사용하지 않는 경우
