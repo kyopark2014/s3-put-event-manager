@@ -12,7 +12,6 @@ import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 
 const debug = false;
-const nproc = 1;
 const projectName = "s3-event-manager"
 
 export class CdkS3EventManagerStack extends cdk.Stack {
@@ -45,7 +44,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = `dynamodb-for-${projectName}`;
-    const indexName = "time-index";
+    const indexName = "status-index";
     const dataTable = new dynamodb.Table(this, `dynamodb-for-${projectName}`, {
       tableName: tableName,
         partitionKey: { name: 'event_id', type: dynamodb.AttributeType.STRING },
