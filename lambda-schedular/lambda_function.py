@@ -84,8 +84,10 @@ def lambda_handler(event, context):
                 UpdateExpression='SET event_status = :status',
                 #UpdateExpression='SET event_status = :status, event_body = :body',
                 ExpressionAttributeValues={
-                    ':body': {'S': body}}
-                )
+                    ':status': {'S': 'loaded'},
+                    #':body': {'S': body}
+                }
+            )
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
