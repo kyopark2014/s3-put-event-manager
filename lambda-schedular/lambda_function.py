@@ -79,10 +79,11 @@ def lambda_handler(event, context):
             resp = dynamodb_client.update_item(
                 TableName=tableName, 
                 Key=Key, 
-                UpdateExpression='SET event_status = :status',
-                ExpressionAttributeValues={':status': {'S': 'loaded'}
-            }
-                                               )
+                UpdateExpression='SET event_status = :status, event_body = :body',
+                ExpressionAttributeValues={
+                    ':status': {'S': 'loaded'},
+                    ':body': {'S': eventBody}}
+                )
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
