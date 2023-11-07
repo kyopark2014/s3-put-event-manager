@@ -112,7 +112,8 @@ export class CdkS3EventManagerStack extends cdk.Stack {
       logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
         tableName: tableName,
-        indexName: indexName
+        indexName: indexName,
+        sqsUrl: queueS3PutItem.queueUrl
       }
     });
     dataTable.grantReadWriteData(lambdaSchedular); // permission for DynamoDB
