@@ -41,7 +41,7 @@ def lambda_handler(event, context):
         try:
             dynamodb_client.delete_item(
                 TableName=tableName,
-                KeyConditionExpression='event_id = :event_id and event_timestamp = :event_timestamp',
+                ConditionExpression='event_id = :event_id and event_timestamp = :event_timestamp',
                 ExpressionAttributeValues={
                     ':event_id': {'S': eventId},
                     ':eventTimestamp': {'S': eventTimestamp}
