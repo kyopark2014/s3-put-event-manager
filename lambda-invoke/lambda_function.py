@@ -43,6 +43,29 @@ def lambda_handler(event, context):
             print('Fail to delete the queue message: ', e)
         
         
+         # update status from created to loaded in dynamodb
+        Key = {
+            'event_id': {'S':eventId},
+            'event_timestamp': {'S':eventTimestamp}
+        }
+
+        #body = json.dumps(eventBody)
+        try:
+            resp = dynamodb_client.update_item(
+                TableName=tableName, 
+                Key=Key, 
+                UpdateExpression='SET event_status = :status',
+                #UpdateExpression='SET event_status = :status, event_body = :body',
+                ExpressionAttributeValues={
+                    ':status': {'S': 'completed'},
+                    #':body': {'S': body}
+                }
+            )
+        except Exception:
+            err_msg = traceback.format_exc()
+            print('err_msg: ', err_msg)
+            raise Exception ("Not able to update in dynamodb") 
+        #print('resp, ', resp)
         # delete dynamodb
         #Key = {
         #    'event_id': {'S':eventId},
