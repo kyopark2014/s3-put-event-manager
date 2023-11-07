@@ -21,11 +21,14 @@ def lambda_handler(event, context):
 
         jsonbody = json.loads(body)
         
-        timestamp = jsonbody['timestamp']
-        print("timestamp: ", timestamp)
+        eventId = jsonbody['eventId']
+        print("eventId: ", eventId)
 
-        bucket = jsonbody['bucket']
-        print("bucket: ", bucket)
+        eventTimestamp = jsonbody['eventTimestamp']
+        print("eventTimestamp: ", eventTimestamp)
+
+        bucketName = jsonbody['bucketName']
+        print("bucketName: ", bucketName)
 
         key = jsonbody['key']
         print("key: ", key)

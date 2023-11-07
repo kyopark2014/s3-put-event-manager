@@ -50,10 +50,10 @@ def lambda_handler(event, context):
         print('bucketName: '+bucketName+', key: '+key)
         
         body = {
-             eventId: eventId,
-             eventTimestamp: eventTimestamp,
-             bucketName: bucketName,
-             key: key
+            'eventId': eventId,
+            'eventTimestamp': eventTimestamp,
+            'bucketName': bucketName,
+            'key': key
         }
         print('body: ', body)
 
@@ -63,7 +63,7 @@ def lambda_handler(event, context):
                 QueueUrl=sqsUrl, 
                 MessageAttributes={},
                 MessageDeduplicationId=eventId,
-                MessageGroupId="putItem",
+                MessageGroupId="putEvent",
                 MessageBody=json.dumps(body)
             )
 
