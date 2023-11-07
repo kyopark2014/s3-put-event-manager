@@ -55,14 +55,16 @@ def lambda_handler(event, context):
              bucketName: bucketName,
              key: key
         }
+        print('body: ', body)
 
         # push to SQS
         try:
             sqs_client.send_message(
                 QueueUrl=sqsUrl, 
-                DelaySeconds=0,
-                MessageAttributes="",
-                MessageBody=json.dumps(body), 
+                MessageAttributes={},
+                MessageDeduplicationId=eventId,
+                MessageGroupId="putItem",
+                MessageBody=json.dumps(body)
             )
 
         except Exception as e:        
