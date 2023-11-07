@@ -10,8 +10,8 @@ tableName = os.environ.get('tableName')
 dynamodb_client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
-    print(event)
-    print(f'event: {json.dumps(event)}')
+    #print(event)
+    #print(f'event: {json.dumps(event)}')
 
     for record in event['Records']:
         print("record: ", record)
@@ -65,7 +65,7 @@ def lambda_handler(event, context):
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
             raise Exception ("Not able to update in dynamodb") 
-        #print('resp, ', resp)
+        print('resp, ', resp)
         print('The status was upaded from loaded to completed: , ', eventId)
 
         # delete dynamodb
