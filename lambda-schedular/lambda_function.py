@@ -31,7 +31,7 @@ def lambda_handler(event, context):
 
     cnt = 0    
     for item in response['Items']:
-        if cnt > 20: 
+        if cnt > 10: 
              break
         else: 
             cnt = cnt+1
@@ -82,8 +82,8 @@ def lambda_handler(event, context):
                 TableName=tableName, 
                 Key=Key, 
                 UpdateExpression='SET event_status = :status, event_body = :body',
+                #UpdateExpression='SET event_status = :status, event_body = :body',
                 ExpressionAttributeValues={
-                    ':status': {'S': 'loaded'},
                     ':body': {'S': body}}
                 )
         except Exception:
