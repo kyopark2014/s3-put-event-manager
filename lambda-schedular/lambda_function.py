@@ -45,11 +45,16 @@ def lambda_handler(event, context):
         print('eventId: '+eventId+', eventTimestamp: '+eventTimestamp+' , status: '+eventStatus)
 
         eventBody = json.loads(item['event_body']['S'])
-        print('eventBody: ', eventBody)
-
         bucketName = eventBody['bucket_name']['S']
         key = eventBody['key']['S']
         print('bucketName: '+bucketName+', key: '+key)
+        
+        body = {
+             eventId: eventId,
+             eventTimestamp: eventTimestamp,
+             bucketName: bucketName,
+             key: key
+        }
 
         # push to SQS
         try:
@@ -57,8 +62,9 @@ def lambda_handler(event, context):
                 QueueUrl=sqsUrl, 
                 DelaySeconds=0,
                 MessageAttributes="",
-                MessageBody=eventBody, 
+                MessageBody=json.dumps(body), 
             )
+
         except Exception as e:        
             print('Fail to delete the queue message: ', e)
 
