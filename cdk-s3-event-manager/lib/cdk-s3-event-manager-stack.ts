@@ -45,7 +45,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
 
     // DynamoDB
     const tableName = `dynamodb-${projectName}`;
-    const indexName = "time-index";
+    const indexName = "time-index";¸xs
     const dataTable = new dynamodb.Table(this, 'dynamodb-s3-event', {
       tableName: tableName,
         partitionKey: { name: 'event_id', type: dynamodb.AttributeType.STRING },
@@ -119,7 +119,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     // cron job - EventBridge
     const rule = new events.Rule(this, `EventBridge-${projectName}`, {
       description: "rule-of-event-bridge",
-      schedule: events.Schedule.expression('rate(1 second)'),
+      schedule: events.Schedule.expression('rate(1 minute)'),
     }); 
     rule.addTarget(new targets.LambdaFunction(lambdaSchedular)); 
 
