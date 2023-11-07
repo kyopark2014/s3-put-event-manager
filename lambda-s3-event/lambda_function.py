@@ -38,10 +38,10 @@ def lambda_handler(event, context):
         requestTime = str(d)[0:19]
 
         item = {
-            'item_id': {'S':bucketName+bucketName},
+            'item_id': {'S':bucketName+key},
+            'request_time': {'S':requestTime},
             'bucket_name': {'S':bucketName},
-            'key': {'S':key},
-            'request_time': {'S':requestTime}
+            'key': {'S':key}
         }
         client = boto3.client('dynamodb')
         try:
