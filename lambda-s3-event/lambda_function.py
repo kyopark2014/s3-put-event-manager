@@ -19,18 +19,6 @@ def lambda_handler(event, context):
 
         print('bucketName: '+bucketName+', key: '+key)
 
-        s3eventInfo.append({
-            'bucketName': bucketName,
-            'key': key
-        })
-
-    for s3event in s3eventInfo:
-        print("s3event: ", s3event)
-
-        bucketName = s3event.bucketName
-        key = s3event.key
-        print('item: '+bucketName+', key: '+key)
-
         d = datetime.datetime.now()
         requestTime = str(d)[0:19]
 
@@ -47,6 +35,11 @@ def lambda_handler(event, context):
             raise Exception ("Not able to write into dynamodb")        
         print('resp, ', resp)
 
+        s3eventInfo.append({
+            'bucketName': bucketName,
+            'key': key
+        })
+        
     return {
         'statusCode': 200,
         'result': json.dumps(s3eventInfo),
