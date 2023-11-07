@@ -20,7 +20,7 @@ def lambda_handler(event, context):
 
         print('bucketName: '+bucketName+', key: '+key)
 
-        eventId = uuid.uuid1()
+        eventId = str(uuid.uuid1())
         print('eventId: ', eventId)
 
         d = datetime.datetime.now()
