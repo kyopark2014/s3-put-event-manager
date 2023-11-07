@@ -31,7 +31,7 @@ def lambda_handler(event, context):
 
     cnt = 0    
     for item in response['Items']:
-        if cnt >= 10: 
+        if cnt > 20: 
              break
         else: 
             cnt = cnt+1
