@@ -89,7 +89,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
       }
     });
     s3Bucket.grantReadWrite(lambdaS3event); // permission for s3
-    dataTable.grantReadWriteData(lambdaS3event); // permission for dynamo
+    dataTable.grantReadWriteData(lambdaS3event); // permission for DynamoDB
     
     // s3 put event source
     const s3PutEventSource = new lambdaEventSources.S3EventSource(s3Bucket, {
@@ -124,18 +124,22 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     rule.addTarget(new targets.LambdaFunction(lambdaSchedular)); 
 
     // Lambda - Invoke
-    const lambdaInvoke = new lambda.Function(this, "LambdaForInvoke", {
+    const lambdaInvoke = new lambda.Function(this, `lambda-invoke-${projectName}`, {
       description: 'lambda for invoke',
-      runtime: lambda.Runtime.NODEJS_14_X, 
-      code: lambda.Code.fromAsset("repositories/lambda-for-invoke"), 
-      handler: "index.handler", 
-      timeout: cdk.Duration.seconds(30),
+      functionName: `lambda-invoke-${projectName}`,
+      handler: 'lambda_function.lambda_handler',
+      runtime: lambda.Runtime.PYTHON_3_11,
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../lambda-invoke')),
+      timeout: cdk.Duration.seconds(120),
+      logRetention: logs.RetentionDays.ONE_DAY,
       environment: {
-        sqsUrl: queueS3PutItem.queueUrl,
+        tableName: tableName,
+        sqsUrl: queueS3PutItem.queueUrl
       }
-    }); 
+    });
     // grant permissions
-    s3Bucket.grantRead(lambdaInvoke);
-    lambdaInvoke.addEventSource(new SqsEventSource(queueS3PutItem)); 
+    s3Bucket.grantRead(lambdaInvoke);  // read permission for S3
+    dataTable.grantReadWriteData(lambdaInvoke); // permission for DynamoDB
+    lambdaInvoke.addEventSource(new SqsEventSource(queueS3PutItem)); // permission for SQS
   }
 }
