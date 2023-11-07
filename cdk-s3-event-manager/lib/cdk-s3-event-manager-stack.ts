@@ -143,7 +143,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
     lambdaInvoke.addEventSource(new SqsEventSource(queueS3PutItem)); // permission for SQS
 
     // copy commend
-    new cdk.CfnOutput(this, 'copyComment', {
+    new cdk.CfnOutput(this, 'copyCommend', {
       value: `aws s3 cp ~/environment/data/ s3://${s3Bucket.bucketName}/data/ --recursive`,
       description: 'The copy commend',
     });

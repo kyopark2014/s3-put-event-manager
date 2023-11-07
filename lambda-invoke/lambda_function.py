@@ -9,7 +9,6 @@ sqsUrl = os.environ.get('sqsUrl')
 def lambda_handler(event, context):
     print(event)
     print(f'event: {json.dumps(event)}')
-    print(f'cpu_count: {os.cpu_count()}')
 
     for record in event['Records']:
         print("record: ", record)
