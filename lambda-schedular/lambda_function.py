@@ -39,7 +39,7 @@ def lambda_handler(event, context):
         print('bucketName: '+bucketName+', key: '+key)
 
         try:
-            dynamodb_client.d .query(
+            dynamodb_client.delete_item(
                 TableName=tableName,
                 KeyConditionExpression='event_id = :event_id and event_timestamp = :event_timestamp',
                 ExpressionAttributeValues={
@@ -50,7 +50,6 @@ def lambda_handler(event, context):
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
-
             raise Exception ("Not able to write into dynamodb")       
 
     return {
