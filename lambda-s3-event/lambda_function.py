@@ -5,7 +5,6 @@ import datetime
 import uuid
 
 tableName = os.environ.get('tableName')
-client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     print(event)
@@ -29,11 +28,12 @@ def lambda_handler(event, context):
         item = {
             'event_id': {'S':eventId},
             'event_timestamp': {'S':timestamp},
-            'event_status': {'S':'created'},            
+            'event_status': {'S':'created'},  
             'bucket_name': {'S':bucketName},
             'key': {'S':key}
         }
         
+        client = boto3.client('dynamodb')
         try:
             resp = client.put_item(TableName=tableName, Item=item)
         except: 
