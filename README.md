@@ -2,7 +2,8 @@
 
 전체적인 Architecture는 아래와 같습니다.
 
-![image](https://github.com/kyopark2014/event-manager/assets/52392004/a0b98541-a8e0-468b-8b72-36b4b3936b58)
+![image](https://github.com/kyopark2014/event-manager/assets/52392004/abc14daa-4d3f-4d64-a1df-81eb178e7fef)
+
 
 [Event Manager를 안쓰는 경우]
 
