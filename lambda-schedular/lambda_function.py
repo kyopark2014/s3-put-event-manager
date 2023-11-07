@@ -1,7 +1,6 @@
 import json
 import boto3
 import os
-import time
 from multiprocessing import Process
 from io import BytesIO
 import traceback
@@ -70,7 +69,7 @@ def lambda_handler(event, context):
         except Exception as e:        
             print('Fail to delete the queue message: ', e)
         
-        # update status in dynamodb
+        # update status from created to loaded in dynamodb
         Key = {
             'event_id': {'S':eventId},
             'event_timestamp': {'S':eventTimestamp}
@@ -81,20 +80,15 @@ def lambda_handler(event, context):
                 TableName=tableName, 
                 Key=Key, 
                 UpdateExpression='SET event_status = :status',
-                #ExpressionAttributeNames={
-                #    '#status': 'status',
-                #    '#field2': 'FIELD_2_NAME',
-                #},
                 ExpressionAttributeValues={':status': {'S': 'loaded'}
             }
                                                )
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
-            raise Exception ("Not able to write into dynamodb") 
+            raise Exception ("Not able to update in dynamodb") 
         #print('resp, ', resp)
     
     return {
         'statusCode': 200,
-        # 'msg': generated_text,
     }        
