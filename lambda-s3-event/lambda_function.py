@@ -12,7 +12,7 @@ tableName = os.environ.get('tableName')
 def lambda_handler(event, context):
     print(event)
 
-    eventInfo = []
+    s3eventInfo = []
     for record in event['Records']:
         print("record: ", record)
 
@@ -22,16 +22,16 @@ def lambda_handler(event, context):
 
         print('bucketName: '+bucketName+', key: '+key)
 
-        eventInfo.append({
+        s3eventInfo.append({
             bucketName: bucketName,
             key: key
         })
 
-    for item in eventInfo:
-        print("item: ", item)
+    for s3event in s3eventInfo:
+        print("s3event: ", s3event)
 
-        bucketName = item.bucketName
-        key = item.key
+        bucketName = s3event.bucketName
+        key = s3event.key
         print('item: '+bucketName+', key: '+key)
 
         d = datetime.datetime.now()
@@ -52,5 +52,5 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'result': json.dumps(eventInfo),
+        'result': json.dumps(s3eventInfo),
     }        
