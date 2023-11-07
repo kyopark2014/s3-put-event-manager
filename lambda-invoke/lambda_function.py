@@ -1,10 +1,13 @@
 import json
 import boto3
 import os
+import traceback
 
 s3 = boto3.client('s3')
 sqs = boto3.client('sqs')
 sqsUrl = os.environ.get('sqsUrl')
+tableName = os.environ.get('tableName')
+dynamodb_client = boto3.client('dynamodb')
 
 def lambda_handler(event, context):
     print(event)
@@ -38,8 +41,22 @@ def lambda_handler(event, context):
             sqs.delete_message(QueueUrl=sqsUrl, ReceiptHandle=receiptHandle)
         except Exception as e:        
             print('Fail to delete the queue message: ', e)
+        
+        # delete dynamodb
+        #Key = {
+        #    'event_id': {'S':eventId},
+        #    'event_timestamp': {'S':eventTimestamp}
+        #}
+        
+        #try:
+        #    resp = dynamodb_client.delete_item(TableName=tableName, Key=Key)
+        #except Exception:
+        #    err_msg = traceback.format_exc()
+        #    print('err_msg: ', err_msg)
+        #    raise Exception ("Not able to write into dynamodb") 
+        #print('resp, ', resp)
             
-    statusCode = 200     
+    statusCode = 200
     return {
         'statusCode': statusCode,
     }

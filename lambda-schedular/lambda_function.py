@@ -69,22 +69,31 @@ def lambda_handler(event, context):
 
         except Exception as e:        
             print('Fail to delete the queue message: ', e)
-
-        # delete dynamodb
+        
+        # update status in dynamodb
         Key = {
             'event_id': {'S':eventId},
             'event_timestamp': {'S':eventTimestamp}
         }
-
-        client = boto3.client('dynamodb')
+        
         try:
-            resp = client.delete_item(TableName=tableName, Key=Key)
+            resp = dynamodb_client.update_item(
+                TableName=tableName, 
+                Key=Key, 
+                UpdateExpression='SET event_status = :status',
+                #ExpressionAttributeNames={
+                #    '#status': 'status',
+                #    '#field2': 'FIELD_2_NAME',
+                #},
+                ExpressionAttributeValues={':status': {'S': 'loaded'}
+            }
+                                               )
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
-            raise Exception ("Not able to write into dynamodb")        
+            raise Exception ("Not able to write into dynamodb") 
         #print('resp, ', resp)
-
+    
     return {
         'statusCode': 200,
         # 'msg': generated_text,
