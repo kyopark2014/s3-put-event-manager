@@ -47,8 +47,8 @@ def lambda_handler(event, context):
         eventBody = json.loads(item['event_body']['S'])
         print('eventBody: ', eventBody)
 
-        bucketName = eventBody['bucketName']
-        key = eventBody['key']
+        bucketName = eventBody['bucketName']['S']
+        key = eventBody['key']['S']
         print('bucketName: '+bucketName+', key: '+key)
 
         # push to SQS
