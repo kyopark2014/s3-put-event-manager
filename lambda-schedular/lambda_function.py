@@ -39,20 +39,35 @@ def lambda_handler(event, context):
         key = item['key']['S']
         print('bucketName: '+bucketName+', key: '+key)
 
+        Key = {
+            'event_id': {'S':eventId},
+            'event_timestamp': {'S':eventTimestamp}
+        }
+        
+        client = boto3.client('dynamodb')
         try:
-            dynamodb_client.delete_item(
-                TableName=tableName,
-                Key={'event_id': {'S': eventId}},
-                ConditionExpression='event_timestamp = :event_timestamp',
-                ExpressionAttributeValues={
-                    #':event_id': {'S': eventId},
-                    ':event_timestamp': {'S': eventTimestamp}
-                }
-            )
+            resp = client.delete_item(
+                TableName=tableName, 
+                Key=Key)
         except Exception:
             err_msg = traceback.format_exc()
             print('err_msg: ', err_msg)
-            raise Exception ("Not able to write into dynamodb")       
+            raise Exception ("Not able to write into dynamodb")        
+        print('resp, ', resp)
+        #try:
+        #    dynamodb_client.delete_item(
+        #        TableName=tableName,
+        #        Key={'event_id': {'S': eventId}},
+        #        ConditionExpression='event_timestamp = :event_timestamp',
+        #        ExpressionAttributeValues={
+        #            #':event_id': {'S': eventId},
+        #            ':event_timestamp': {'S': eventTimestamp}
+        #        }
+        #    )
+        #except Exception:
+        #    err_msg = traceback.format_exc()
+        #    print('err_msg: ', err_msg)
+        #    raise Exception ("Not able to write into dynamodb")       
 
     return {
         'statusCode': 200,
