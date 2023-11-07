@@ -2,10 +2,10 @@
 
 전체적인 Architecture는 아래와 같습니다.
 
-![image](https://github.com/kyopark2014/event-manager/assets/52392004/abc14daa-4d3f-4d64-a1df-81eb178e7fef)
+<img src="https://github.com/kyopark2014/event-manager/assets/52392004/abc14daa-4d3f-4d64-a1df-81eb178e7fef" width="800">
 
 
-[Event Manager를 안쓰는 경우]
+[Event Manager를 사용하지 않는 경우]
 
 이때의 데이터 Flow는 아래와 같습니다.
 
