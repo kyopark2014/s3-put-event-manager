@@ -117,6 +117,7 @@ export class CdkS3EventManagerStack extends cdk.Stack {
       }
     });
     dataTable.grantReadWriteData(lambdaSchedular); // permission for DynamoDB
+    queueS3PutItem.grantSendMessages(lambdaSchedular); // permision for SQS putItem
 
     // cron job - EventBridge
     const rule = new events.Rule(this, `EventBridge-${projectName}`, {
