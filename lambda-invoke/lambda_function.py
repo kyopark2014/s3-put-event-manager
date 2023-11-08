@@ -64,9 +64,8 @@ def lambda_handler(event, context):
                 Key=Key, 
                 #UpdateExpression='SET event_status = :status',
                 #UpdateExpression='SET event_status = :status, event_body = :body',
-                #UpdateExpression='SET event_status = :status, event_end = :event_end',
+                UpdateExpression='SET event_status = :status, event_end = :event_end',
 
-                
                 ExpressionAttributeValues={
                     ':status': {'S': 'completed'},
                     #':body': {'S': body}
