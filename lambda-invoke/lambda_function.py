@@ -2,6 +2,7 @@ import json
 import boto3
 import os
 import traceback
+import datetime
 
 s3 = boto3.client('s3')
 sqs = boto3.client('sqs')
@@ -49,16 +50,27 @@ def lambda_handler(event, context):
             'event_timestamp': {'S':eventTimestamp}
         }
 
-        #body = json.dumps(eventBody)
+        d = datetime.datetime.now()
+        # timestamp = str(d)[0:19]  # min
+        timestamp = str(d)
+        body = json.dumps({
+            'bucket_name': {'S':bucketName},
+            'key': {'S':key}
+        }) 
+
         try:
             resp = dynamodb_client.update_item(
                 TableName=tableName, 
                 Key=Key, 
-                UpdateExpression='SET event_status = :status',
+                #UpdateExpression='SET event_status = :status',
                 #UpdateExpression='SET event_status = :status, event_body = :body',
+                #UpdateExpression='SET event_status = :status, event_end = :event_end',
+
+                
                 ExpressionAttributeValues={
                     ':status': {'S': 'completed'},
                     #':body': {'S': body}
+                    ':event_end': {'S': timestamp}                    
                 }
             )
         except Exception:

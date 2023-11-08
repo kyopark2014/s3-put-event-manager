@@ -24,7 +24,8 @@ def lambda_handler(event, context):
         print('eventId: ', eventId)
 
         d = datetime.datetime.now()
-        timestamp = str(d)[0:19]       
+        # timestamp = str(d)[0:19]  # min
+        timestamp = str(d)
         body = json.dumps({
             'bucket_name': {'S':bucketName},
             'key': {'S':key}
@@ -33,6 +34,7 @@ def lambda_handler(event, context):
         item = {
             'event_id': {'S':eventId},
             'event_timestamp': {'S':timestamp},
+            'event_end': {'S':'NA'},
             'event_status': {'S':'created'},  
             'event_body': {'S':body}     
         }
