@@ -50,3 +50,10 @@ Event Manager를 사용하는 경우에 아래와 같이 event를 처리하는 p
 상세한 Call Flow는 아래를 참조합니다.
 
 ![noname](https://github.com/kyopark2014/s3-put-event-manager/assets/52392004/1db24f03-8fd9-4c31-a619-41b41e32d4d0)
+
+## 인프라 설치
+
+[deployment.md](./deployment.md)에 인프라를 설치하고 필요한 셈플 파일을 다운로드 합니다.
+
+## 실행 방법
+
