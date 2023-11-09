@@ -47,3 +47,6 @@ Event Manager를 사용하는 경우에 아래와 같이 event를 처리하는 p
 단계 4: Lambda (invoke)가 Step Fucntions으로 event를 전달합니다. 
 
 
+상세한 Call Flow는 아래를 참조합니다.
+
+![noname](https://github.com/kyopark2014/s3-put-event-manager/assets/52392004/1db24f03-8fd9-4c31-a619-41b41e32d4d0)
